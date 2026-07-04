@@ -1,6 +1,6 @@
 # Governance
 
-`cloud-itonami-9521` is an OSS open-business blueprint for repair of consumer electronics -- diagnosing and repairing TVs, audio equipment, computers and similar devices for customers.
+`cloud-itonami-isic-9521` is an OSS open-business blueprint for repair of consumer electronics -- diagnosing and repairing TVs, audio equipment, computers and similar devices for customers.
 Governance covers both the capability layer and the operator model.
 
 ## Maintainers

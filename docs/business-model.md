@@ -2,7 +2,7 @@
 
 ## Classification
 
-- Repository: `cloud-itonami-9521`
+- Repository: `cloud-itonami-isic-9521`
 - ISIC Rev.5: `9521`
 - Activity: repair of consumer electronics -- diagnosing and repairing TVs, audio equipment, computers and similar devices for customers
 - Social impact: community access, data sovereignty, transparent audit

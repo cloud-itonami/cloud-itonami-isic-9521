@@ -1,4 +1,4 @@
-# cloud-itonami-9521
+# cloud-itonami-isic-9521
 
 Open Business Blueprint for **ISIC Rev.5 9521**: Repair of consumer electronics.
 
