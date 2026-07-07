@@ -31,7 +31,14 @@
 ## Trust Controls
 
 - no repair is performed and no device is returned without human sign-off
-- a fabricated diagnostic forces a hold, not an override
-- every repair path is auditable
+- a fabricated jurisdiction citation, incomplete repair evidence, a
+  claimed parts cost that doesn't match the actual quantity-times-
+  unit-price calculation, or a failed post-repair safety test -- each
+  forces a hold, not an override
+- a ticket's repair cannot be completed or its device returned twice:
+  a double-completion/double-return attempt is held off this actor's
+  own ticket facts alone, with no upstream comparison needed
+- every intake, assessment, screening, completion and return path is
+  auditable
 - customer device data (personal content) stays outside Git
 - emergency manual override paths remain outside LLM control
