@@ -23,7 +23,43 @@
   centralized body -- an honest representative citation, not a state-
   by-state survey, the same simplification every prior catalog makes
   when a jurisdiction's real regulatory structure is itself
-  federated.")
+  federated.
+
+  ZAF (South Africa) cites the Consumer Protection Act 68 of 2008
+  (CPA) -- ss 55-57 (right to safe/good-quality goods, the implied
+  warranty of quality and its repeat-repair remedy, and the
+  repaired-goods warranty) plus s.15 (repair/maintenance estimate
+  pre-authorisation) -- enforced by the National Consumer Commission
+  (NCC, established under CPA s.85). Verified directly against the
+  Government Gazette No. 32186 (29 Apr 2009) text of the Act
+  (gov.za) and the NCC's own site (thencc.org.za); unlike JPN/USA/
+  GBR/DEU, South Africa folds product-quality/safety and repair-
+  specific consumer protection into one Act and one regulator rather
+  than splitting them, which is why the citation spans ss 15/55-57
+  instead of a single safety-only statute.
+
+  Two adjacent regimes were investigated for this entry and
+  deliberately left OUT rather than guessed into the single-citation
+  shape below:
+  - E-waste/producer-responsibility: the National Environmental
+    Management: Waste Act 59 of 2008 (NEMWA) s.18(1) Regulations
+    regarding Extended Producer Responsibility, 2020 do name \"the
+    electrical and electronic equipment sector\" as one of three
+    covered sectors (confirmed via the DFFE's own Section 18 EPR
+    Registry pages, archived copies fetched 2026-07 since the live
+    sawic.environment.gov.za TLS endpoint was unreachable this
+    session) -- but the registration duty verified there runs against
+    *producers* and *producer responsibility organisations* placing
+    new EEE into commerce, not against repair shops disposing of
+    replaced parts/dead units. No source fetched this session
+    establishes that a pure repair-service business is itself an NEMWA
+    s.18 \"producer\"; this gap is left honestly unresolved rather than
+    asserted either way.
+  - ICASA type-approval: ICASA's own type-approval page states the
+    requirement attaches to using/supplying/selling/leasing electronic
+    communications equipment, and explicitly does not address repair
+    or maintenance of already-approved devices -- confirmed not to
+    apply to a repair-only operation, so omitted rather than force-fit.")
 
 (def catalog
   "iso3 -> requirement map. `:required-evidence` mirrors the generic
@@ -67,7 +103,16 @@
           :required-evidence ["Diagnosebericht (diagnostic report)"
                               "Ersatzteilnachweis (parts-used documentation)"
                               "Reparaturtechniker-Qualifikationsnachweis (repair-technician certification)"
-                              "Sicherheitsprüfungsprotokoll nach Reparatur (post-repair safety-test record)"]}})
+                              "Sicherheitsprüfungsprotokoll nach Reparatur (post-repair safety-test record)"]}
+   "ZAF" {:name "South Africa"
+          :owner-authority "National Consumer Commission (NCC)"
+          :legal-basis "Consumer Protection Act 68 of 2008 (CPA), ss 15 & 55-57"
+          :national-spec "CPA right-to-safe-good-quality-goods (s.55), implied warranty of quality with its repeat-repair remedy (s.56), warranty on repaired goods (s.57), and repair/maintenance estimate pre-authorisation (s.15)"
+          :provenance "https://thencc.org.za/"
+          :required-evidence ["Diagnostic report"
+                              "Parts-used documentation"
+                              "Repair-technician certification"
+                              "Post-repair safety-test record"]}})
 
 (defn spec-basis
   "The jurisdiction's requirement map, or nil -- nil means NO spec-basis,

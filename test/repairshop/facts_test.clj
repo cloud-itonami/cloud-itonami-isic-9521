@@ -6,6 +6,15 @@
   (is (some? (facts/spec-basis "JPN")))
   (is (string? (:provenance (facts/spec-basis "JPN")))))
 
+(deftest zaf-has-a-spec-basis
+  (let [entry (facts/spec-basis "ZAF")]
+    (is (some? entry))
+    (is (string? (:provenance entry)))
+    (is (= "South Africa" (:name entry)))
+    (is (= "National Consumer Commission (NCC)" (:owner-authority entry)))
+    (is (re-find #"Consumer Protection Act 68 of 2008" (:legal-basis entry)))
+    (is (= 4 (count (:required-evidence entry))))))
+
 (deftest unknown-jurisdiction-has-no-fabricated-spec-basis
   (is (nil? (facts/spec-basis "ATL"))))
 
