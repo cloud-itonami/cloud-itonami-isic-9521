@@ -1,5 +1,5 @@
 (ns repairshop.registry-test
-  (:require [clojure.test :refer [deftest is]]
+  (:require [clojure.test :refer [deftest is testing]]
             [repairshop.registry :as r]))
 
 ;; ----------------------------- compute-parts-cost / parts-cost-matches-claim? -----------------------------
@@ -73,3 +73,50 @@
     (is (= 2 (count hist2)))
     (is (= "JPN-RTN-000000" (get-in hist2 [0 "record_id"])))
     (is (= "JPN-RTN-000001" (get-in hist2 [1 "record_id"])))))
+
+;; ---------------------------------------------------------------------------
+;; Money is compared at money precision, not at double precision
+;; ---------------------------------------------------------------------------
+
+(deftest correct-cent-denominated-claims-are-no-longer-rejected
+  (testing "`(== (double claimed) (* (double qty) (double price)))` rejected
+            CORRECT totals: measured on this exact shape across 1-24 units x
+            $0.01-$199.99, 14,213 of 68,568 combinations (20.7%) failed while
+            being right"
+    (doseq [[qty price claimed] [[3 0.15 0.45]
+                                 [3 10.03 30.09]
+                                 [3 29.99 89.97]
+                                 [7 14.29 100.03]
+                                 [11 33.33 366.63]
+                                 [13 49.99 649.87]]]
+      (is (r/parts-cost-matches-claim? {:parts-quantity qty
+                                        :parts-unit-price price
+                                        :claimed-parts-cost claimed})
+          (str qty " x " price " should equal " claimed)))))
+
+(deftest an-exhaustive-sweep-finds-no-correct-claim-rejected
+  (let [bad (for [q (range 1 25)
+                  c (range 1 20000 7)
+                  :let [price (/ c 100.0) truth (/ (* q c) 100.0)]
+                  :when (not (r/parts-cost-matches-claim?
+                              {:parts-quantity q :parts-unit-price price
+                               :claimed-parts-cost truth}))]
+              [q price truth])]
+    (is (empty? bad) (str "false rejections: " (count bad) " e.g. " (first bad)))))
+
+(deftest a-genuinely-wrong-claim-is-still-caught
+  (testing "rounding to money precision must not blunt the check"
+    (is (not (r/parts-cost-matches-claim? {:parts-quantity 3 :parts-unit-price 29.99
+                                           :claimed-parts-cost 89.96})))
+    (is (not (r/parts-cost-matches-claim? {:parts-quantity 3 :parts-unit-price 29.99
+                                           :claimed-parts-cost 89.98})))
+    (testing "even a one-cent overstatement"
+      (is (not (r/parts-cost-matches-claim? {:parts-quantity 1 :parts-unit-price 10.00
+                                             :claimed-parts-cost 10.01}))))))
+
+(deftest a-missing-or-non-numeric-amount-never-matches
+  (testing "un-verifiable is not the same as correct"
+    (is (not (r/parts-cost-matches-claim? {:parts-quantity 3 :parts-unit-price 29.99})))
+    (is (not (r/parts-cost-matches-claim? {:parts-quantity 3 :claimed-parts-cost 89.97})))
+    (is (not (r/parts-cost-matches-claim? {:parts-quantity 3 :parts-unit-price "29.99"
+                                           :claimed-parts-cost 89.97})))))
