@@ -75,7 +75,7 @@ independent layers enforce this (`repairshop.governor`'s `:actuation/
 complete-repair`/`:actuation/return-device` high-stakes gate and
 `repairshop.phase`'s phase table, which never puts `:repair/complete`/
 `:device/return` in any phase's `:auto` set) -- see `repairshop.
-phase`'s docstring and `test/repairshop/phase_test.clj`'s `repair-
+phase`'s docstring and `test/repairshop/phase_test.kotoba`'s `repair-
 complete-never-auto-at-any-phase`/`device-return-never-auto-at-any-
 phase`. The actor may draft, check and recommend; a human repair
 technician/shop owner is always the one who actually completes a
@@ -158,14 +158,14 @@ domain capability lib to reference at all.
 
 | File | Role |
 |---|---|
-| `src/repairshop/store.cljc` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + separate repair-completion/device-return history. No dynamically-filed sub-record -- both actuation ops act directly on a pre-seeded ticket, and the double-completion/double-return guards check dedicated `:repair-completed?`/`:device-returned?` booleans rather than a `:status` value |
-| `src/repairshop/registry.cljc` | Repair-completion + device-return draft records, plus `compute-parts-cost`/`parts-cost-matches-claim?` -- an EXACT-MATCH independent recompute (claimed parts cost must equal quantity x unit-price), reusing this fleet's established recompute family for a further domain |
-| `src/repairshop/facts.cljc` | Per-jurisdiction consumer-product-safety catalog with an official spec-basis citation per entry, honest coverage reporting |
-| `src/repairshop/repairopsllm.cljc` | **RepairOps-LLM Advisor** -- `mock-advisor` ‖ `llm-advisor`; intake/assessment/safety-screening/repair-completion/device-return proposals |
-| `src/repairshop/governor.cljc` | **Repair Shop Governor** -- 4 HARD checks (spec-basis · evidence-incomplete · parts-cost-mismatch, pure ground-truth exact-match recompute · safety-test-not-passed, unconditional evaluation) + already-completed/already-returned guards + 1 soft (confidence/actuation gate) |
-| `src/repairshop/phase.cljc` | **Phase 0→3** -- read-only → assisted intake → assisted assess → supervised (repair/return actuation always human; ticket intake is the ONLY auto-eligible op, no direct capital risk) |
-| `src/repairshop/operation.cljc` | **OperationActor** -- langgraph-clj StateGraph |
-| `src/repairshop/sim.cljc` | demo driver |
+| `src/repairshop/store.kotoba` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + separate repair-completion/device-return history. No dynamically-filed sub-record -- both actuation ops act directly on a pre-seeded ticket, and the double-completion/double-return guards check dedicated `:repair-completed?`/`:device-returned?` booleans rather than a `:status` value |
+| `src/repairshop/registry.kotoba` | Repair-completion + device-return draft records, plus `compute-parts-cost`/`parts-cost-matches-claim?` -- an EXACT-MATCH independent recompute (claimed parts cost must equal quantity x unit-price), reusing this fleet's established recompute family for a further domain |
+| `src/repairshop/facts.kotoba` | Per-jurisdiction consumer-product-safety catalog with an official spec-basis citation per entry, honest coverage reporting |
+| `src/repairshop/repairopsllm.kotoba` | **RepairOps-LLM Advisor** -- `mock-advisor` ‖ `llm-advisor`; intake/assessment/safety-screening/repair-completion/device-return proposals |
+| `src/repairshop/governor.kotoba` | **Repair Shop Governor** -- 4 HARD checks (spec-basis · evidence-incomplete · parts-cost-mismatch, pure ground-truth exact-match recompute · safety-test-not-passed, unconditional evaluation) + already-completed/already-returned guards + 1 soft (confidence/actuation gate) |
+| `src/repairshop/phase.kotoba` | **Phase 0→3** -- read-only → assisted intake → assisted assess → supervised (repair/return actuation always human; ticket intake is the ONLY auto-eligible op, no direct capital risk) |
+| `src/repairshop/operation.kotoba` | **OperationActor** -- langgraph-clj StateGraph |
+| `src/repairshop/sim.kotoba` | demo driver |
 | `test/repairshop/*_test.clj` | governor contract · phase invariants · store parity · registry conformance · facts coverage |
 
 ## Business-process coverage (honest)

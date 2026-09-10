@@ -143,7 +143,7 @@ fix.
   (alongside `9603`), further proving the pattern generalizes across
   genuinely different domains.
 - (+) The actuation invariant (governor + phase, two layers) is
-  regression-tested by `test/repairshop/phase_test.clj`'s `repair-
+  regression-tested by `test/repairshop/phase_test.kotoba`'s `repair-
   complete-never-auto-at-any-phase`/`device-return-never-auto-at-any-
   phase`.
 - (+) `MemStore` ‖ `DatomicStore` parity is proven by `test/
