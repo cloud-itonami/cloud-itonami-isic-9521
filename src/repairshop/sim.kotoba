@@ -1,5 +1,5 @@
 (ns repairshop.sim
-  "Demo driver -- `clojure -M:dev:run`. Walks a clean ticket through
+  "Demo driver -- `kbb -M:dev:run`. Walks a clean ticket through
   intake -> jurisdiction assessment -> post-repair safety screening ->
   repair-completion proposal (always escalates) -> human approval ->
   commit, then through device-return proposal (always escalates) ->

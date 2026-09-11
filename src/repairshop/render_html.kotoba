@@ -11,7 +11,7 @@
   -- there is no hand-written HTML row anywhere in this file.
 
   The scenario extends this repo's own `repairshop.sim` driver
-  (`clojure -M:dev:run`, run and read BEFORE this file was written) so
+  (`kbb -M:dev:run`, run and read BEFORE this file was written) so
   that ALL SIX of the governor's HARD rules fire, not the five the sim
   reaches: `repair/complete ticket-4` is attempted with no
   jurisdiction assessment on file, which is the only way to isolate
@@ -34,7 +34,7 @@
       what it failed to measure is the failure mode ADR-2608136000
       names; here the unmeasured case is a build error, not a pass.
 
-  Usage: `clojure -M:dev:render-html [out-file]`
+  Usage: `kbb -M:dev:render-html [out-file]`
   (default `docs/samples/operator-console.html`)."
   (:require [kotoba.lang.text :as str]
             [jp-go-dds.skin]
@@ -540,7 +540,7 @@
      "  <p><span class=\"badge\">read-only sample</span> <span class=\"badge\">governor-gated</span> "
      "<span class=\"badge\">repair completion &amp; device return always human-approved</span></p>\n"
      "  <p class=\"muted\">Generated at build time by <code>repairshop.render-html</code> "
-     "(<code>clojure -M:dev:render-html</code>) by driving the real "
+     "(<code>kbb -M:dev:render-html</code>) by driving the real "
      "<code>repairshop.operation</code> actor graph over a freshly seeded "
      "<code>repairshop.store</code>. No figure on this page is hand-written; "
      "no usage, revenue or performance metric is claimed anywhere.</p>\n"
