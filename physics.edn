@@ -1,0 +1,33 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:dev:physics` runs it.
+;;
+;; README "Robotics premise": a diagnostic-bench robot assists physical
+;; testing and repair of consumer electronics (ISIC 9521), gated by the
+;; Repair Shop Governor. Its physical work here is softening the display
+;; adhesive of a phone / tablet on a heat pad so the screen can be lifted,
+;; and lifting a flat-panel TV from the intake rack onto the bench.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isic-9521"
+ :cases
+ [{:id :screen-adhesive-softening
+   :kind :thermal
+   :procedure "robot lays the phone face-down on the heat pad; the pad heats through the 1 mm cover glass until the display adhesive behind it softens (threshold 70 C), and is left on the pad for up to 5 minutes"
+   :params {:thickness-m 0.001 :conductivity-w-mk 1.0 :density-kg-m3 2500.0 :specific-heat-j-kgk 800.0
+            :t0-c 23.0 :h-front-w-m2k 300.0 :t-back-ambient-c 30.0 :h-back-w-m2k 5.0
+            :threshold-c 70.0 :duration-s 300.0 :nodes 11}
+   :sweep {:param :t-hot-c :values [75.0 80.0 90.0 100.0 120.0]}
+   :quantity :peak-back-c
+   :limit {:max 90.0 :basis "estimate: the display panel and the battery behind the adhesive must stay below ~90 C during a 5-minute heat-pad dwell; glass properties, pad contact conductance and the ~70 C adhesive softening threshold are estimates"}
+   :boundary {:lo 71.0 :hi 200.0}}
+  {:id :tv-onto-bench
+   :kind :manipulator
+   :procedure "arm lifts a flat-panel TV from the intake rack and lays it on the padded repair bench"
+   :params {:l1-m 0.60 :l2-m 0.55 :m1-kg 8.0 :m2-kg 6.0
+            :from [0.70 0.60] :to [0.50 0.10] :duration-s 3.0 :steps 500}
+   :sweep {:param :payload-kg :values [5.0 10.0 15.0 20.0 25.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 250.0 :basis "estimate: continuous shoulder torque of a 20 kg-payload-class industrial arm"}
+   :boundary {:lo 0.5 :hi 60.0}}]}
